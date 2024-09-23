@@ -176,7 +176,7 @@ public class WebUI {
     }
 
     public static void clickElement(By by, long timeout) {
-        waitForElementVisible(by);
+        waitForElementClickable(by);
         DriverManager.getDriver().findElement(by).click();
         logConsole("\uD83D\uDFE2 Click element: " + by);
     }
