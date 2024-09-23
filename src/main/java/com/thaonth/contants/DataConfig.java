@@ -1,11 +1,13 @@
 package com.thaonth.contants;
 
-public class DataConfig {
-        public static String URL = "https://crm.anhtester.com/admin/authentication";
-        public static String PASSWORD = "admin@example.com";
-        public static String EMAIL = "123456";
+import com.thaonth.helpers.PropertiesHelper;
 
-        public static int EXPLICIT_WAIT_TIMEOUT = 10;
-        public static double STEP_TIME = 0.5;
-        public static int PAGE_LOAD_TIMEOUT = 40;
+public class DataConfig {
+        public static String URL = PropertiesHelper.getValue("URL");
+        public static String PASSWORD = PropertiesHelper.getValue("PASSWORD");
+        public static String EMAIL = PropertiesHelper.getValue("EMAIL");
+
+        public static int EXPLICIT_WAIT_TIMEOUT = Integer.parseInt(PropertiesHelper.getValue("EXPLICIT_WAIT_TIMEOUT"));
+        public static double STEP_TIME = Double.parseDouble(PropertiesHelper.getValue("STEP_TIME"));
+        public static int PAGE_LOAD_TIMEOUT = Integer.parseInt(PropertiesHelper.getValue("PAGE_LOAD_TIMEOUT"));
     }

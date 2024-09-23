@@ -1,4 +1,4 @@
-package com.thaonth.PageObjectModel;
+package com.thaonth.Bai26_PageObjectModel;
 
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

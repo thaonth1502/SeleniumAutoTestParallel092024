@@ -5,9 +5,9 @@
     <test name="Parallel Testing in POM with chrome" parallel="methods">
         <parameter name="browser" value="chrome"></parameter>
         <classes>
-            <class name="com.thaonth.PageObjectModel.testcases.LoginTest" />
-            <class name="com.thaonth.PageObjectModel.testcases.DashboardTest"/>
-            <class name="com.thaonth.PageObjectModel.testcases.CustomerTest"/>
+            <class name="com.thaonth.Bai26_PageObjectModel.testcases.LoginTest" />
+            <class name="com.thaonth.Bai26_PageObjectModel.testcases.DashboardTest"/>
+            <class name="com.thaonth.Bai26_PageObjectModel.testcases.CustomerTest"/>
         </classes>
     </test>
 </suite>

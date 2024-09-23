@@ -20,27 +20,27 @@ public class WebUI {
     //Assert and Verify
     public static boolean verifyEquals(Object actual, Object expected) {
         waitForPageLoaded();
-        System.out.println("✅ Verify equals: " + actual + " \uD83D\uDFF0 " + expected);
+        System.out.println("⭐\uFE0F Verify equals: " + actual + " \uD83D\uDFF0 " + expected);
         boolean check = actual.equals(expected);
         return check;
     }
 
     public static void assertEquals(Object actual, Object expected, String message) {
         waitForPageLoaded();
-        System.out.println("✅ Assert equals: " + actual + " \uD83D\uDFF0 " + expected);
+        System.out.println("⭐\uFE0F Assert equals: " + actual + " \uD83D\uDFF0 " + expected);
         Assert.assertEquals(actual, expected, message);
     }
 
     public static boolean verifyContains(String actual, String expected) {
         waitForPageLoaded();
-        System.out.println("✅ Verify contains: " + actual + " and " + expected);
+        System.out.println("⭐\uFE0F Verify contains: " + actual + " and " + expected);
         boolean check = actual.contains(expected);
         return check;
     }
 
     public static void assertContains(String actual, String expected, String message) {
         waitForPageLoaded();
-        System.out.println("✅ Assert contains: " + actual + " and " + expected);
+        System.out.println("⭐\uFE0F Assert contains: " + actual + " and " + expected);
         boolean check = actual.contains(expected);
         Assert.assertTrue(check, message);
     }
@@ -188,17 +188,17 @@ public class WebUI {
 
     public static void setText(By by, String value) {
         getWebElement(by).sendKeys(value);
-        logConsole("\uD83D\uDD8B Set text: " + value + " on element " + by);
+        logConsole("\uD83D\uDD37 Set text: " + value + " on element " + by);
     }
 
     public static void setKeys(By by, Keys key){
         getWebElement(by).sendKeys(key);
-        logConsole("\uD83D\uDD8B Set Keys: " + key + " on element " + by);
+        logConsole("\uD83D\uDD37 Set Keys: " + key + " on element " + by);
     }
 
     public static void setTextAndKey(By by, String value, Keys key) {
         getWebElement(by).sendKeys(value, key);
-        System.out.println("\uD83D\uDD8B Set text: " + value + " on element " + by);
+        System.out.println("\uD83D\uDD37 Set text: " + value + " on element " + by);
     }
 
     public static void clearElementText(By by){

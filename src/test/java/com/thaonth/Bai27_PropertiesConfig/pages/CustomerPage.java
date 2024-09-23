@@ -1,10 +1,8 @@
-package com.thaonth.PageObjectModel.pages;
+package com.thaonth.Bai27_PropertiesConfig.pages;
 
 import com.thaonth.drivers.DriverManager;
-import com.thaonth.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import static com.thaonth.keywords.WebUI.*;

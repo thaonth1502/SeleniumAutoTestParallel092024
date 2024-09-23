@@ -1,9 +1,8 @@
-package com.thaonth.PageObjectModel.pages;
+package com.thaonth.Bai26_PageObjectModel.pages;
 
 import com.thaonth.contants.DataConfig;
 import com.thaonth.keywords.WebUI;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class LoginPage extends CommonPage {

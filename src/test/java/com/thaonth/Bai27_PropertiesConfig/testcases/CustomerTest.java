@@ -1,13 +1,11 @@
-package com.thaonth.PageObjectModel.testcases;
+package com.thaonth.Bai27_PropertiesConfig.testcases;
 
-import com.thaonth.PageObjectModel.pages.CustomerPage;
-import com.thaonth.PageObjectModel.pages.DashboardPage;
-import com.thaonth.PageObjectModel.pages.LoginPage;
-import com.thaonth.PageObjectModel.pages.ProjectPage;
+import com.thaonth.Bai27_PropertiesConfig.pages.CustomerPage;
+import com.thaonth.Bai27_PropertiesConfig.pages.DashboardPage;
+import com.thaonth.Bai27_PropertiesConfig.pages.LoginPage;
+import com.thaonth.Bai27_PropertiesConfig.pages.ProjectPage;
 import com.thaonth.common.BaseTest;
 import org.testng.Assert;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class CustomerTest extends BaseTest {

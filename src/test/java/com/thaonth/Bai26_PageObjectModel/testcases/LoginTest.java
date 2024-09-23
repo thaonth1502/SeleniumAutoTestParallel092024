@@ -1,6 +1,6 @@
-package com.thaonth.PageObjectModel.testcases;
+package com.thaonth.Bai26_PageObjectModel.testcases;
 
-import com.thaonth.PageObjectModel.pages.LoginPage;
+import com.thaonth.Bai26_PageObjectModel.pages.LoginPage;
 import com.thaonth.common.BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;

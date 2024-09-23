@@ -1,29 +1,19 @@
 package com.thaonth.common;
 
+import com.thaonth.Bai26_PageObjectModel.pages.CommonPage;
 import com.thaonth.drivers.DriverManager;
-import com.thaonth.helpers.PropertiesHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.*;
 
-public class BaseTest {
+public class BaseTestE2E extends CommonPage {
 
-    @BeforeSuite
-    public void setupEnvironment(){
-        PropertiesHelper.loadAllFiles();
-    }
-
-    @BeforeMethod
+    @BeforeClass
     @Parameters({"browser"})
     public void createDriver(@Optional("chrome") String browser) {
-        WebDriver driver;
-        if (PropertiesHelper.getValue("BROWSER") != null){
-             driver =  setupDriver(PropertiesHelper.getValue("BROWSER"));
-        } else {
-            driver = setupDriver(browser);
-        }
+        WebDriver driver =  setupDriver(browser);
         DriverManager.setDriver(driver);  //Gan gia tri driver vao trong ThreadLocal
     }
 
@@ -68,7 +58,7 @@ public class BaseTest {
         return driver;
     }
 
-    @AfterMethod
+    @AfterClass
     public void closeDriver() {
             DriverManager.quit();
     }
