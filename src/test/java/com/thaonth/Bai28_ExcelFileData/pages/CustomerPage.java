@@ -1,6 +1,7 @@
 package com.thaonth.Bai28_ExcelFileData.pages;
 
 import com.thaonth.drivers.DriverManager;
+import com.thaonth.helpers.ExcelHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
@@ -9,7 +10,6 @@ import static com.thaonth.keywords.WebUI.*;
 
 
 public class CustomerPage extends CommonPage {
-
 
     //Elements
     private By headerCustomerPage = By.xpath("//span[normalize-space()='Customers Summary']");
@@ -89,20 +89,22 @@ public class CustomerPage extends CommonPage {
 
     }
 
-    public void inputDataInAddNewCustomerForm(String customerName){
+    public void inputDataInAddNewCustomerForm(String customerName, int row){
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/Login.xlsx", "Customer");
         setText(inputCompany, customerName);
-        setText(inputVAT, "10");
-        setText(inputPhone, "098765432");
-        setText(inputWebsite, "https://anhtester.com");
-        selectGroup("VIP");
-        selectCurrency("USD");
-        selectLanguage("Vietnamese");
+        setText(inputVAT, excelHelper.getCellData("VAT", row));
+        setText(inputPhone, excelHelper.getCellData("PHONE", row));
+        setText(inputWebsite, excelHelper.getCellData("WEBSITE", row));
+        selectGroup(excelHelper.getCellData("GROUP", row));
+        selectCurrency(excelHelper.getCellData("CURRENCY", row));
+        selectLanguage(excelHelper.getCellData("LANGUAGE", row));
         sleep(1);
-        setText(inputAddress, "Hanoi");
-        setText(inputCity, "Hanoi");
-        setText(inputState, "CauGiay");
-        setText(inputZipCode, "100000");
-        selectCountry("Vietnam");
+        setText(inputAddress, excelHelper.getCellData("ADDRESS", row));
+        setText(inputCity, excelHelper.getCellData("CITY", row));
+        setText(inputState, excelHelper.getCellData("STATE", row));
+        setText(inputZipCode, excelHelper.getCellData("ZIP_CODE", row));
+        selectCountry(excelHelper.getCellData("COUNTRY", row));
     }
 
     public void selectCurrency(String currency){
@@ -137,21 +139,23 @@ public class CustomerPage extends CommonPage {
         Assert.assertTrue(checkElementExist(firstItemCustomerName), "FAIL!!! The customer name not display in table");
         assertEquals(getElementText(firstItemCustomerName), customerName, "FAIL!!! The customer not match");
     }
-    public void checkCustomerDetail(String customerName){
+    public void checkCustomerDetail(String customerName, int row){
         clickElement(firstItemCustomerName);
         //Check content customer detail
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/Login.xlsx", "Customer");
 
         assertEquals(getElementAttribute(inputCompany,"value"), customerName, "\uD83D\uDC1E FAIL!!! The customer Name not match.");
-        assertEquals(getElementAttribute(inputVAT,"value"), "10", "\uD83D\uDC1E FAIL!!! The VAT not match.");
-        assertEquals(getElementAttribute(inputPhone,"value"), "098765432", "\uD83D\uDC1E FAIL!!! The Phone not match.");
-        assertEquals(getElementAttribute(inputWebsite,"value"), "https://anhtester.com", "\uD83D\uDC1E FAIL!!! The Website not match.");
-        assertEquals(getElementAttribute(dropdownGroups,"title"), "VIP", "\uD83D\uDC1E FAIL!!! The Groups not match.");
-        assertEquals(getElementAttribute(dropdownCurrency,"title"), "USD", "\uD83D\uDC1E FAIL!!! The Currency not match.");
-        assertEquals(getElementAttribute(dropdownDefaultLanguage,"title"), "Vietnamese", "\uD83D\uDC1E FAIL!!! The Language not match.");
-        assertEquals(getElementAttribute(inputAddress,"value"), "Hanoi", "\uD83D\uDC1E FAIL!!! The Address not match.");
-        assertEquals(getElementAttribute(inputCity,"value"), "Hanoi", "\uD83D\uDC1E FAIL!!! The City not match.");
-        assertEquals(getElementAttribute(inputState,"value"), "CauGiay", "\uD83D\uDC1E FAIL!!! The State not match.");
-        assertEquals(getElementAttribute(inputZipCode,"value"), "100000", "\uD83D\uDC1E FAIL!!! The Zip Code not match.");
-        assertEquals(getElementAttribute(dropdownCountry,"title"), "Vietnam", "\uD83D\uDC1E FAIL!!! The Country not match.");
+        assertEquals(getElementAttribute(inputVAT,"value"),  excelHelper.getCellData("VAT", row), "\uD83D\uDC1E FAIL!!! The VAT not match.");
+        assertEquals(getElementAttribute(inputPhone,"value"), excelHelper.getCellData("PHONE", row), "\uD83D\uDC1E FAIL!!! The Phone not match.");
+        assertEquals(getElementAttribute(inputWebsite,"value"), excelHelper.getCellData("WEBSITE", row), "\uD83D\uDC1E FAIL!!! The Website not match.");
+        assertEquals(getElementAttribute(dropdownGroups,"title"), excelHelper.getCellData("GROUP", row), "\uD83D\uDC1E FAIL!!! The Groups not match.");
+        assertEquals(getElementAttribute(dropdownCurrency,"title"), excelHelper.getCellData("CURRENCY", row), "\uD83D\uDC1E FAIL!!! The Currency not match.");
+        assertEquals(getElementAttribute(dropdownDefaultLanguage,"title"), excelHelper.getCellData("LANGUAGE", row), "\uD83D\uDC1E FAIL!!! The Language not match.");
+        assertEquals(getElementAttribute(inputAddress,"value"), excelHelper.getCellData("ADDRESS", row), "\uD83D\uDC1E FAIL!!! The Address not match.");
+        assertEquals(getElementAttribute(inputCity,"value"), excelHelper.getCellData("CITY", row), "\uD83D\uDC1E FAIL!!! The City not match.");
+        assertEquals(getElementAttribute(inputState,"value"), excelHelper.getCellData("STATE", row), "\uD83D\uDC1E FAIL!!! The State not match.");
+        assertEquals(getElementAttribute(inputZipCode,"value"), excelHelper.getCellData("ZIP_CODE", row), "\uD83D\uDC1E FAIL!!! The Zip Code not match.");
+        assertEquals(getElementAttribute(dropdownCountry,"title"), excelHelper.getCellData("COUNTRY", row), "\uD83D\uDC1E FAIL!!! The Country not match.");
     }
 }

@@ -5,6 +5,7 @@ import com.thaonth.Bai28_ExcelFileData.pages.DashboardPage;
 import com.thaonth.Bai28_ExcelFileData.pages.LoginPage;
 import com.thaonth.Bai28_ExcelFileData.pages.ProjectPage;
 import com.thaonth.common.BaseTest;
+import com.thaonth.helpers.ExcelHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -17,19 +18,21 @@ public class CustomerTest extends BaseTest {
     @Test
     public void testAddNewCustomer(){
         loginPage = new LoginPage();
-        String CUSTOMER_NAME = "23092024A2 Customer Name";
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/Login.xlsx", "Customer");
+        String CUSTOMER_NAME = excelHelper.getCellData("CUSTOMER_NAME", 1);
         dashboardPage = loginPage.loginCRM("admin@example.com", "123456");
         customerPage = dashboardPage.clickMenuCustomers();
         int beforeTotalCustomers = Integer.parseInt(customerPage.getTotalCustomers());
         System.out.println("\uD83C\uDF40 Total Customer before: " + beforeTotalCustomers);
         customerPage.clickAddNewButton();
-        customerPage.inputDataInAddNewCustomerForm(CUSTOMER_NAME);
+        customerPage.inputDataInAddNewCustomerForm(CUSTOMER_NAME, 1);
         customerPage.clickSaveButton();
         int afterTotalCustomers = Integer.parseInt(customerPage.getTotalCustomers());
         System.out.println("\uD83C\uDF40  Total Customer after: " + afterTotalCustomers);
         Assert.assertEquals(afterTotalCustomers, beforeTotalCustomers + 1, "\uD83D\uDC1E FAIL!!! Total Customer not match.");
         customerPage.checkCustomerInTableList(CUSTOMER_NAME);
-        customerPage.checkCustomerDetail(CUSTOMER_NAME);
+        customerPage.checkCustomerDetail(CUSTOMER_NAME, 1);
         projectPage = customerPage.clickMenuProjects();
         projectPage.clickAddNewProject();
         projectPage.checkCustomerDisplayInProjectForm(CUSTOMER_NAME);
