@@ -7,12 +7,6 @@ import org.testng.Assert;
 
 public class ProjectPage extends CommonPage {
 
-    private WebDriver driver;
-    public ProjectPage(WebDriver driver){
-        super(driver);
-        this.driver = driver;
-        new WebUI(driver);
-    }
     private By buttonNewProject = By.xpath("//a[normalize-space()='New Project']");
     private By inputProjectName = By.xpath("//input[@id='name']");
     private By selectCustomer = By.xpath("//button[@data-id='clientid']");
@@ -40,7 +34,7 @@ public class ProjectPage extends CommonPage {
         WebUI.sleep(1);
         WebUI.setText(inputSearchCustomer, customerName);
         WebUI.sleep(1);
-        Assert.assertEquals(WebUI.getElementText(itemCustomerName), customerName, "FAIL!!! The Customer not display in Project form");
+        Assert.assertEquals(WebUI.getElementText(itemCustomerName), customerName, "\uD83D\uDC1E FAIL!!! The Customer not display in Project form");
     }
 
     public void selectBillingType(String billingType) {

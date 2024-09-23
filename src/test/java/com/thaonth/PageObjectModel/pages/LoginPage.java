@@ -8,13 +8,8 @@ import org.testng.Assert;
 
 public class LoginPage extends CommonPage {
 
-    WebDriver driver;
+
     //Khai báo biến tooàn cục
-    public LoginPage(WebDriver driver){
-        super(driver);
-        this.driver = driver; //Nhận giá trị driver từ bên ngoài (Base Test) khi khởi tạo class
-        new WebUI(driver);
-    }
 
     //Khai báo các element dạng đối tượng By
     private By headerPage = By.xpath("//h1[normalize-space()='Login']");
@@ -46,7 +41,7 @@ public class LoginPage extends CommonPage {
         enterPassword(password);
         clickLoginButton();
 
-        return new DashboardPage(driver);
+        return new DashboardPage();
     }
 
     public void verifyLoginSuccess(){

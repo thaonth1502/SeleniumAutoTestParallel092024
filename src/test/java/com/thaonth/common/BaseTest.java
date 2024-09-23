@@ -1,5 +1,6 @@
 package com.thaonth.common;
 
+import com.thaonth.drivers.DriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -11,15 +12,16 @@ import org.testng.annotations.Parameters;
 
 public class BaseTest {
 
-    public WebDriver driver;
-
     @BeforeMethod
     @Parameters({"browser"})
     public void createDriver(@Optional("chrome") String browser) {
-        setupDriver(browser);
+        WebDriver driver =  setupDriver(browser);
+        DriverManager.setDriver(driver);  //Gan gia tri driver vao trong ThreadLocal
     }
 
     public WebDriver setupDriver(String browserName) {
+        WebDriver driver;
+
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
                 driver = initChromeDriver();
@@ -39,29 +41,27 @@ public class BaseTest {
 
     private WebDriver initChromeDriver() {
         System.out.println("\uD83C\uDF0E Launching Chrome browser...");
-        driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         return driver;
     }
 
     private WebDriver initEdgeDriver() {
         System.out.println("\uD83C\uDF0E Launching Edge browser...");
-        driver = new EdgeDriver();
+        WebDriver driver = new EdgeDriver();
         driver.manage().window().maximize();
         return driver;
     }
 
     private WebDriver initFirefoxDriver() {
         System.out.println("\uD83C\uDF0E Launching Firefox browser...");
-        driver = new FirefoxDriver();
+        WebDriver driver = new FirefoxDriver();
         driver.manage().window().maximize();
         return driver;
     }
 
     @AfterMethod
     public void closeDriver() {
-        if(driver != null) {
-            driver.quit();
-        }
+            DriverManager.quit();
     }
 }

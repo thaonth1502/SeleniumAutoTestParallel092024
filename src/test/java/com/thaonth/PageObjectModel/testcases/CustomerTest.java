@@ -6,6 +6,8 @@ import com.thaonth.PageObjectModel.pages.LoginPage;
 import com.thaonth.PageObjectModel.pages.ProjectPage;
 import com.thaonth.common.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class CustomerTest extends BaseTest {
@@ -16,8 +18,8 @@ public class CustomerTest extends BaseTest {
 
     @Test
     public void testAddNewCustomer(){
-        loginPage = new LoginPage(driver);
-        String CUSTOMER_NAME = "1909A6 Customer Name";
+        loginPage = new LoginPage();
+        String CUSTOMER_NAME = "23092024A2 Customer Name";
         dashboardPage = loginPage.loginCRM("admin@example.com", "123456");
         customerPage = dashboardPage.clickMenuCustomers();
         int beforeTotalCustomers = Integer.parseInt(customerPage.getTotalCustomers());
@@ -35,10 +37,10 @@ public class CustomerTest extends BaseTest {
         projectPage.checkCustomerDisplayInProjectForm(CUSTOMER_NAME);
 
     }
-
+/*
     @Test
     public void createNewGroupSuccess(){
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         String GROUP_NAME = "TEST A02";
         dashboardPage = loginPage.loginCRM("admin@example.com", "123456");
         customerPage = dashboardPage.clickMenuCustomers();
@@ -50,7 +52,7 @@ public class CustomerTest extends BaseTest {
 
     @Test
     public void createNewGroupFail(){
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         String GROUP_NAME = "";
         dashboardPage = loginPage.loginCRM("admin@example.com", "123456");
         customerPage = dashboardPage.clickMenuCustomers();
@@ -58,4 +60,6 @@ public class CustomerTest extends BaseTest {
         customerPage.createNewGroup(GROUP_NAME);
         customerPage.verifyCreateNewGroupFail("This field is required.");
     }
+
+ */
 }

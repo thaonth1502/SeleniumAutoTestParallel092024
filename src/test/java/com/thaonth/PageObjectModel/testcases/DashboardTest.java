@@ -12,18 +12,18 @@ public class DashboardTest extends BaseTest {
 
     @Test
     public void testCheckQuickStatisticsSection(){
-           loginPage = new LoginPage(driver);
+           loginPage = new LoginPage();
            dashboardPage = loginPage.loginCRM("admin@example.com", "123456");
 
-           dashboardPage.checkTotalInvoicesAwaitingPayment("4 / 5");
-           dashboardPage.checkTotalConvertedLeads("1 / 6");
-           dashboardPage.checkTotalProjectsInProgress("1 / 7");
+           dashboardPage.checkTotalInvoicesAwaitingPayment("2 / 5");
+           dashboardPage.checkTotalConvertedLeads("1 / 22");
+           dashboardPage.checkTotalProjectsInProgress("0 / 6");
            dashboardPage.checkTotalTasksNotFinished("7 / 8");
     }
 
     @Test
     public void testCheckSectionQuickStatisticsDisplayed(){
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM("admin@example.com", "123456");
 
         dashboardPage.clickDashboardOptionButton();

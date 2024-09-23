@@ -1,5 +1,6 @@
 package com.thaonth.PageObjectModel.pages;
 
+import com.thaonth.drivers.DriverManager;
 import com.thaonth.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -11,13 +12,6 @@ import static com.thaonth.keywords.WebUI.*;
 
 public class CustomerPage extends CommonPage {
 
-    private WebDriver driver;
-
-    public CustomerPage(WebDriver driver){
-        super(driver);
-        this.driver = driver;
-        new WebUI(driver);
-    }
 
     //Elements
     private By headerCustomerPage = By.xpath("//span[normalize-space()='Customers Summary']");
@@ -62,7 +56,7 @@ public class CustomerPage extends CommonPage {
 
     public void createNewGroup(String groupName){
         clickElement(buttonCreateGroup);
-        driver.switchTo().activeElement();
+        DriverManager.getDriver().switchTo().activeElement();
         setText(inputNameGroup, groupName);
         clickElement(buttonSaveGroup);
         sleep(2);

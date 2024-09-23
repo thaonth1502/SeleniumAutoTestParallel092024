@@ -8,14 +8,9 @@ import org.testng.asserts.SoftAssert;
 
 public class DashboardPage extends CommonPage {
 
-    private WebDriver driver;
+
     SoftAssert softAssert = new SoftAssert();
 
-    public DashboardPage(WebDriver driver) {
-        super(driver);
-        this.driver = driver;
-        new WebUI(driver);
-    }
 
     private By menuDashboard = By.xpath("//span[normalize-space()='Dashboard']");
     private By buttonDashboardOptions = By.xpath("//div[@class='screen-options-btn']");
@@ -26,38 +21,39 @@ public class DashboardPage extends CommonPage {
     private By checkboxQuickStatistics = By.xpath("//input[@id='widget_option_top_stats']");
 
     public void checkTotalInvoicesAwaitingPayment(String total){
-        softAssert.assertTrue(WebUI.isElementDisplayed(totalInvoicesAwaitingPayment), "FAIL!!! totalInvoicesAwaitingPayment not displayed.");
-        softAssert.assertEquals(WebUI.getElementText(totalInvoicesAwaitingPayment), total, "FAIL!!! Total InvoicesAwaitingPayment not match.");
+        softAssert.assertTrue(WebUI.isElementDisplayed(totalInvoicesAwaitingPayment), "\uD83D\uDC1E FAIL!!! totalInvoicesAwaitingPayment not displayed.");
+        softAssert.assertEquals(WebUI.getElementText(totalInvoicesAwaitingPayment), total, "\uD83D\uDC1E FAIL!!! Total InvoicesAwaitingPayment not match.");
     }
 
     public void checkTotalConvertedLeads(String total){
-        softAssert.assertTrue(WebUI.isElementDisplayed(totalConvertedLeads), "FAIL!!! total ConvertedLeads not displayed.");
-        softAssert.assertEquals(WebUI.getElementText(totalConvertedLeads), total, "FAIL!!! Total ConvertedLeads not match.");
+        softAssert.assertTrue(WebUI.isElementDisplayed(totalConvertedLeads), "\uD83D\uDC1E FAIL!!! total ConvertedLeads not displayed.");
+        softAssert.assertEquals(WebUI.getElementText(totalConvertedLeads), total, "\uD83D\uDC1E FAIL!!! Total ConvertedLeads not match.");
     }
 
     public void checkTotalProjectsInProgress(String total){
-        softAssert.assertTrue(WebUI.isElementDisplayed(totalProjectsInProgress), "FAIL!!! ProjectsInProgress not displayed.");
-        softAssert.assertEquals(WebUI.getElementText(totalProjectsInProgress), total, "FAIL!!! Total ProjectsInProgress not match.");
+        softAssert.assertTrue(WebUI.isElementDisplayed(totalProjectsInProgress), "\uD83D\uDC1E FAIL!!! ProjectsInProgress not displayed.");
+        softAssert.assertEquals(WebUI.getElementText(totalProjectsInProgress), total, "\uD83D\uDC1E FAIL!!! Total ProjectsInProgress not match.");
     }
 
     public void checkTotalTasksNotFinished(String total){
-        softAssert.assertTrue(WebUI.isElementDisplayed(totalTasksNotFinished), "FAIL!!! TasksNotFinished not displayed.");
-        softAssert.assertEquals(WebUI.getElementText(totalTasksNotFinished), total, "FAIL!!! Total TasksNotFinished not match.");
+        softAssert.assertTrue(WebUI.isElementDisplayed(totalTasksNotFinished), "\uD83D\uDC1E FAIL!!! TasksNotFinished not displayed.");
+        softAssert.assertEquals(WebUI.getElementText(totalTasksNotFinished), total, "\uD83D\uDC1E FAIL!!! Total TasksNotFinished not match.");
         softAssert.assertAll();
     }
 
     public void clickDashboardOptionButton(){
         WebUI.waitForElementClickable(buttonDashboardOptions);
-        driver.findElement(buttonDashboardOptions).click();
+        WebUI.clickElement(buttonDashboardOptions);
+
     }
 
     public void verifyQuickStatisticsSectionDisplayed(){
         WebUI.isElementDisplayed(checkboxQuickStatistics);
-        Assert.assertTrue(driver.findElement(checkboxQuickStatistics).isSelected(),"FAIL!!! Checkbox Quick Statistics not selected.");
-        softAssert.assertTrue(WebUI.isElementDisplayed(totalInvoicesAwaitingPayment), "FAIL!!! totalInvoicesAwaitingPayment not displayed.");
-        softAssert.assertTrue(WebUI.isElementDisplayed(totalConvertedLeads), "FAIL!!! total ConvertedLeads not displayed.");
-        softAssert.assertTrue(WebUI.isElementDisplayed(totalProjectsInProgress), "FAIL!!! ProjectsInProgress not displayed.");
-        softAssert.assertTrue(WebUI.isElementDisplayed(totalTasksNotFinished), "FAIL!!! TasksNotFinished not displayed.");
+        Assert.assertTrue(WebUI.isSelectedElement(checkboxQuickStatistics),"\uD83D\uDC1E FAIL!!! Checkbox Quick Statistics not selected.");
+        softAssert.assertTrue(WebUI.isElementDisplayed(totalInvoicesAwaitingPayment), "\uD83D\uDC1E FAIL!!! totalInvoicesAwaitingPayment not displayed.");
+        softAssert.assertTrue(WebUI.isElementDisplayed(totalConvertedLeads), "\uD83D\uDC1E FAIL!!! total ConvertedLeads not displayed.");
+        softAssert.assertTrue(WebUI.isElementDisplayed(totalProjectsInProgress), "\uD83D\uDC1E FAIL!!! ProjectsInProgress not displayed.");
+        softAssert.assertTrue(WebUI.isElementDisplayed(totalTasksNotFinished), "\uD83D\uDC1E FAIL!!! TasksNotFinished not displayed.");
         softAssert.assertAll();
     }
 }
