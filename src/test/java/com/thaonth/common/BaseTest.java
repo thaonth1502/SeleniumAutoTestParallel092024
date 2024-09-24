@@ -1,11 +1,13 @@
 package com.thaonth.common;
 
 import com.thaonth.drivers.DriverManager;
+import com.thaonth.helpers.CaptureHelper;
 import com.thaonth.helpers.PropertiesHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 public class BaseTest {
@@ -69,7 +71,11 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void closeDriver() {
+    public void closeDriver(ITestResult iTestResult) {
+
+        if (iTestResult.getStatus() == ITestResult.FAILURE){
+            CaptureHelper.screenshot(iTestResult.getName());
+        }
             DriverManager.quit();
     }
 }
