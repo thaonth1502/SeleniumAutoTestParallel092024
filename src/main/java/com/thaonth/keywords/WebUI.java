@@ -1,7 +1,13 @@
 package com.thaonth.keywords;
 
+import com.aventstack.extentreports.Status;
 import com.thaonth.contants.DataConfig;
 import com.thaonth.drivers.DriverManager;
+import com.thaonth.helpers.CaptureHelper;
+import com.thaonth.helpers.PropertiesHelper;
+import com.thaonth.helpers.SystemHelper;
+import com.thaonth.reports.ExtentTestManager;
+import com.thaonth.utils.LogUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -20,27 +26,31 @@ public class WebUI {
     //Assert and Verify
     public static boolean verifyEquals(Object actual, Object expected) {
         waitForPageLoaded();
-        System.out.println("⭐\uFE0F Verify equals: " + actual + " \uD83D\uDFF0 " + expected);
+        LogUtils.info("Verify equals: " + actual + " \uD83D\uDFF0 " + expected);
+        ExtentTestManager.logMessage(Status.PASS,"Verify equals: " + actual + " \uD83D\uDFF0 " + expected );
         boolean check = actual.equals(expected);
         return check;
     }
 
     public static void assertEquals(Object actual, Object expected, String message) {
         waitForPageLoaded();
-        System.out.println("⭐\uFE0F Assert equals: " + actual + " \uD83D\uDFF0 " + expected);
+        LogUtils.info("Assert equals: " + actual + " \uD83D\uDFF0 " + expected);
+        ExtentTestManager.logMessage(Status.PASS,"Assert equals: " + actual + " \uD83D\uDFF0 " + expected);
         Assert.assertEquals(actual, expected, message);
     }
 
     public static boolean verifyContains(String actual, String expected) {
         waitForPageLoaded();
-        System.out.println("⭐\uFE0F Verify contains: " + actual + " and " + expected);
+        LogUtils.info("Verify contains: " + actual + " and " + expected);
+        ExtentTestManager.logMessage(Status.PASS,"Verify contains: " + actual + " and " + expected);
         boolean check = actual.contains(expected);
         return check;
     }
 
     public static void assertContains(String actual, String expected, String message) {
         waitForPageLoaded();
-        System.out.println("⭐\uFE0F Assert contains: " + actual + " and " + expected);
+        LogUtils.info("Assert contains: " + actual + " and " + expected);
+        ExtentTestManager.logMessage(Status.PASS,"Assert contains: " + actual + " and " + expected);
         boolean check = actual.contains(expected);
         Assert.assertTrue(check, message);
     }
@@ -54,8 +64,8 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT), Duration.ofMillis(500));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         } catch (Throwable error) {
-            Assert.fail("\uD83D\uDD56 Timeout waiting for the element Visible. " + by.toString());
-            logConsole("\uD83D\uDD56 Timeout waiting for the element Visible. " + by.toString());
+            LogUtils.info("Timeout waiting for the element Visible. " + by.toString());
+            Assert.fail("Timeout waiting for the element Visible. " + by.toString());
         }
     }
 
@@ -64,8 +74,8 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         } catch (Throwable error) {
-            Assert.fail("\uD83D\uDD56 Timeout waiting for the element Visible. " + by.toString());
-            logConsole("\uD83D\uDD56 Timeout waiting for the element Visible. " + by.toString());
+            LogUtils.info("Timeout waiting for the element Visible. " + by.toString());
+            Assert.fail("Timeout waiting for the element Visible. " + by.toString());
         }
     }
 
@@ -74,8 +84,8 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT), Duration.ofMillis(500));
             wait.until(ExpectedConditions.presenceOfElementLocated(by));
         } catch (Throwable error) {
-            Assert.fail("❌ Element not exist. " + by.toString());
-            logConsole("❌ Element not exist. " + by.toString());
+            LogUtils.info("Element not exist. " + by.toString());
+            Assert.fail("Element not exist. " + by.toString());
         }
     }
 
@@ -84,49 +94,29 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.presenceOfElementLocated(by));
         } catch (Throwable error) {
-            Assert.fail("❌ Element not exist. " + by.toString());
-            logConsole("❌ Element not exist. " + by.toString());
+            LogUtils.info("Element not exist. " + by.toString());
+            Assert.fail("Element not exist. " + by.toString());
         }
     }
 
     public static void waitForElementClickable(By by) {
-        try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT), Duration.ofMillis(500));
             wait.until(ExpectedConditions.elementToBeClickable(getWebElement(by)));
-        } catch (Throwable error) {
-            Assert.fail("\uD83D\uDD56 Timeout waiting for the element ready to click. " + by.toString());
-            logConsole("\uD83D\uDD56 Timeout waiting for the element ready to click. " + by.toString());
-        }
     }
 
     public static void waitForElementClickable(By by, int timeOut) {
-        try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.elementToBeClickable(getWebElement(by)));
-        } catch (Throwable error) {
-            Assert.fail("\uD83D\uDD56 Timeout waiting for the element ready to click. " + by.toString());
-            logConsole("\uD83D\uDD56 Timeout waiting for the element ready to click. " + by.toString());
-        }
     }
 
     public static void waitForElementSelected(By by) {
-        try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT), Duration.ofMillis(500));
             wait.until(ExpectedConditions.elementToBeSelected(getWebElement(by)));
-        } catch (Throwable error) {
-            Assert.fail("\uD83D\uDD56 Timeout waiting for the element ready to select. " + by.toString());
-            logConsole("\uD83D\uDD56 Timeout waiting for the element ready to select. " + by.toString());
-        }
     }
 
     public static void waitForElementSelected(By by, int timeOut) {
-        try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.elementToBeSelected(getWebElement(by)));
-        } catch (Throwable error) {
-            Assert.fail("\uD83D\uDD56 Timeout waiting for the element ready to select. " + by.toString());
-            logConsole("\uD83D\uDD56 Timeout waiting for the element ready to select. " + by.toString());
-        }
     }
 
     //Các hàm xử lý cơ bản
@@ -139,7 +129,7 @@ public class WebUI {
     }
 
     public static void logConsole(Object message) {
-        System.out.println(message);
+        LogUtils.info(message);
     }
 
     public static WebElement getWebElement(By by) {
@@ -152,13 +142,15 @@ public class WebUI {
     }
 
     public static Boolean checkElementExist(By by) {
-        List< WebElement > listElement = getListWebElement(by);
+        List< WebElement> listElement = DriverManager.getDriver().findElements(by);
 
         if (listElement.size() > 0) {
-            System.out.println("✅ Check Element Exist: " + true + " --- " + by);
+            LogUtils.info("Element " + by + " existing");
+            ExtentTestManager.logMessage(Status.INFO,"Element" + by + " existing");
             return true;
         } else {
-            System.out.println("❌ Check Element Exist: " + false + " --- " + by);
+            LogUtils.error("Element  " + by + "NOT exist");
+            ExtentTestManager.logMessage(Status.INFO,"Element  " + by + " NOT exist");
             return false;
         }
     }
@@ -166,19 +158,21 @@ public class WebUI {
     public static void openURL(String url) {
         DriverManager.getDriver().get(url);
         sleep(DataConfig.STEP_TIME);
-        logConsole("\uD83C\uDF0E Open: " + url);
+        LogUtils.info("Open: " + url);
+        ExtentTestManager.logMessage(Status.PASS, "Open: " + url);
+        if (PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
+            CaptureHelper.screenshot(SystemHelper.makeSlug("openURL_" + url));
+        }
     }
 
     public static void clickElement(By by) {
         waitForElementClickable(by);
         DriverManager.getDriver().findElement(by).click();
-        logConsole("\uD83D\uDFE2 Click element: " + by);
-    }
-
-    public static void clickElement(By by, long timeout) {
-        waitForElementClickable(by);
-        DriverManager.getDriver().findElement(by).click();
-        logConsole("\uD83D\uDFE2 Click element: " + by);
+        LogUtils.info("Click element: " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Click element: " + by);
+        if(PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
+            CaptureHelper.screenshot(SystemHelper.makeSlug("clickElement"+by.toString()));
+        }
     }
 
     public static boolean isSelectedElement(By by){
@@ -188,40 +182,57 @@ public class WebUI {
 
     public static void setText(By by, String value) {
         getWebElement(by).sendKeys(value);
-        logConsole("\uD83D\uDD37 Set text: " + value + " on element " + by);
+        LogUtils.info("Set text: " + value + " on element " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Set text: " + value + " on element " + by);
+        if(PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
+            CaptureHelper.screenshot(SystemHelper.makeSlug("setText"+by.toString()));
+        }
     }
 
     public static void setKeys(By by, Keys key){
         getWebElement(by).sendKeys(key);
-        logConsole("\uD83D\uDD37 Set Keys: " + key + " on element " + by);
+        LogUtils.info("Set Keys: " + key + " on element " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Set Keys: " + key + " on element " + by);
+
+        if(PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
+            CaptureHelper.screenshot(SystemHelper.makeSlug("setText"+by.toString()));
+        }
     }
 
     public static void setTextAndKey(By by, String value, Keys key) {
         getWebElement(by).sendKeys(value, key);
-        System.out.println("\uD83D\uDD37 Set text: " + value + " on element " + by);
+        LogUtils.info("Set text: " + value + " Set Keys: " + key + " on element " + by);
+        ExtentTestManager.logMessage(Status.PASS, "Set text: " + value + " Set Keys: " + key + " on element " + by);
+
+        if(PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
+            CaptureHelper.screenshot(SystemHelper.makeSlug("setText"+by.toString()));
+        }
     }
 
     public static void clearElementText(By by){
         waitForElementVisible(by);
         DriverManager.getDriver().findElement(by).clear();
+        LogUtils.info("Clear text on element " + by);
     }
 
     public static String getElementText(By by) {
         waitForElementVisible(by);
         String text = DriverManager.getDriver().findElement(by).getText();
-        logConsole("➡\uFE0F Get text: " + text);
+        LogUtils.info("Get text: " + text);
+        ExtentTestManager.logMessage(Status.PASS, "Get text: " + text);
         return text; //Trả về một giá trị kiểu String
     }
 
     public static String getElementAttribute(By by, String attributeName){
         waitForElementVisible(by);
         String text = DriverManager.getDriver().findElement(by).getAttribute(attributeName);
-        logConsole("➡\uFE0F Attribute value: " + text);
+        LogUtils.info("Attribute value: " + text);
+        ExtentTestManager.logMessage(Status.PASS, "Attribute value: " + text);
         return text;
     }
 
     public static boolean isElementDisplayed(By by){
-        return getWebElement(by).isDisplayed();
+        return DriverManager.getDriver().findElement(by).isDisplayed();
     }
 
     public static String getCurrentURL(){
@@ -260,7 +271,7 @@ public class WebUI {
             action.moveToElement(getWebElement(toElement)).perform();
             return true;
         } catch (Exception e) {
-            logConsole(e.getMessage());
+            LogUtils.error(e.getMessage());
             return false;
         }
     }
@@ -271,7 +282,7 @@ public class WebUI {
             action.moveByOffset(X, Y).build().perform();
             return true;
         } catch (Exception e) {
-            logConsole(e.getMessage());
+            LogUtils.error(e.getMessage());
             return false;
         }
     }
@@ -282,6 +293,7 @@ public class WebUI {
             action.moveToElement(getWebElement(by)).perform();
             return true;
         } catch (Exception e) {
+            LogUtils.error(e.getMessage());
             return false;
         }
     }
@@ -292,6 +304,7 @@ public class WebUI {
             action.moveToElement(getWebElement(by)).perform();
             return true;
         } catch (Exception e) {
+            LogUtils.error(e.getMessage());
             return false;
         }
     }
@@ -302,7 +315,7 @@ public class WebUI {
             action.dragAndDrop(getWebElement(fromElement), getWebElement(toElement)).perform();
             return true;
         } catch (Exception e) {
-            logConsole(e.getMessage());
+            LogUtils.error(e.getMessage());
             return false;
         }
     }
@@ -313,7 +326,7 @@ public class WebUI {
             action.clickAndHold(getWebElement(fromElement)).moveToElement(getWebElement(toElement)).release(getWebElement(toElement)).build().perform();
             return true;
         } catch (Exception e) {
-            logConsole(e.getMessage());
+            LogUtils.error(e.getMessage());
             return false;
         }
     }
@@ -325,7 +338,7 @@ public class WebUI {
             action.clickAndHold(getWebElement(fromElement)).pause(1).moveByOffset(X, Y).release().build().perform();
             return true;
         } catch (Exception e) {
-            logConsole(e.getMessage());
+            LogUtils.info(e.getMessage());
             return false;
         }
     }
@@ -337,6 +350,7 @@ public class WebUI {
             robot.keyRelease(KeyEvent.VK_ENTER);
             return true;
         } catch (Exception e) {
+            LogUtils.error(e.getMessage());
             return false;
         }
     }
@@ -348,6 +362,7 @@ public class WebUI {
             robot.keyRelease(KeyEvent.VK_ESCAPE);
             return true;
         } catch (Exception e) {
+            LogUtils.error(e.getMessage());
             return false;
         }
     }
@@ -359,6 +374,7 @@ public class WebUI {
             robot.keyRelease(KeyEvent.VK_F11);
             return true;
         } catch (Exception e) {
+            LogUtils.error(e.getMessage());
             return false;
         }
     }
@@ -411,8 +427,8 @@ public class WebUI {
             try {
                 wait.until(jsLoad);
             } catch (Throwable error) {
-                error.printStackTrace();
-                Assert.fail("\uD83D\uDC1E FAILED!!! Timeout waiting for page load.");
+                LogUtils.error("FAILED!!! Timeout waiting for page load.");
+                Assert.fail("FAILED!!! Timeout waiting for page load.");
             }
         }
     }
@@ -439,8 +455,8 @@ public class WebUI {
             try {
                 wait.until(jsLoad);
             } catch (Throwable error) {
-                error.printStackTrace();
-                Assert.fail("\uD83D\uDC1E FAILED!!! Timeout waiting for page load.");
+                LogUtils.error("FAILED!!! Timeout waiting for page load.");
+                Assert.fail("FAILED!!! Timeout waiting for page load.");
             }
         }
     }

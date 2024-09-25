@@ -1,5 +1,7 @@
 package com.thaonth.helpers;
 
+import com.thaonth.utils.LogUtils;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,8 +33,10 @@ public class PropertiesHelper {
                 tempProp.load(file);
                 properties.putAll(tempProp);
             }
+            LogUtils.info("Load All Properties: " + properties);
             return properties;
         } catch (IOException ioe) {
+            LogUtils.error(ioe.getMessage());
             return new Properties();
         }
     }
@@ -45,7 +49,7 @@ public class PropertiesHelper {
             properties.load(file);
             file.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 
@@ -57,7 +61,7 @@ public class PropertiesHelper {
             properties.load(file);
             file.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 
@@ -74,7 +78,7 @@ public class PropertiesHelper {
             // Lấy giá trị từ file đã Set
             value = properties.getProperty(key);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LogUtils.error(e.getMessage());
         }
         return value;
     }
@@ -95,7 +99,7 @@ public class PropertiesHelper {
             properties.store(out, null);
             out.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LogUtils.error(e.getMessage());
         }
     }
 

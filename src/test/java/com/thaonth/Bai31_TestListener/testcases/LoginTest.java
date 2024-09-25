@@ -3,19 +3,15 @@ package com.thaonth.Bai31_TestListener.testcases;
 import com.thaonth.Bai31_TestListener.pages.LoginPage;
 import com.thaonth.common.BaseTest;
 import com.thaonth.dataproviders.DataProviderFactory;
-import com.thaonth.listeners.TestListener;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.util.Hashtable;
 
-
-@Listeners({TestListener.class})
 public class LoginTest extends BaseTest {
 
     private LoginPage loginPage;
 
-    @Test (dataProvider = "data_provider_login", dataProviderClass = DataProviderFactory.class)
+    @Test (description = "Login Success", dataProvider = "data_provider_login", dataProviderClass = DataProviderFactory.class)
     public void testLoginSuccess(String email, String password){
         loginPage = new LoginPage();
         loginPage.loginCRM(email, password);
@@ -36,10 +32,10 @@ public class LoginTest extends BaseTest {
         loginPage.verifyLoginSuccess();
     }
 
-    @Test
+    @Test (description = "Login Fail - Email Invalid")
     public void testLoginFailWithEmailInvalid(){
         loginPage = new LoginPage();
-        loginPage.loginCRM("admin111@example.com", "123456");
+        loginPage.loginCRM("admin1@example.com", "123456");
         loginPage.verifyLoginFail("Invalid email or password");
     }
 
@@ -47,7 +43,7 @@ public class LoginTest extends BaseTest {
     public void testLoginFailWithPasswordInvalid(){
         loginPage = new LoginPage();
 
-        loginPage.loginCRM("admin@example.com", "12345678");
+        loginPage.loginCRM("admin@example.com", "1234567");
         loginPage.verifyLoginFail("Invalid email or password");
     }
 
@@ -66,4 +62,5 @@ public class LoginTest extends BaseTest {
         loginPage.loginCRM("", "12345678");
         loginPage.verifyLoginFail("The Email Address field is required.");
     }
+
 }

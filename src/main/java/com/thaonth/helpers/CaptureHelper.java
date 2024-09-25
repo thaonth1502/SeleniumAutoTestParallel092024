@@ -2,6 +2,7 @@ package com.thaonth.helpers;
 
 import com.thaonth.contants.DataConfig;
 import com.thaonth.drivers.DriverManager;
+import com.thaonth.utils.LogUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.io.FileHandler;
@@ -64,8 +65,10 @@ public class CaptureHelper extends ScreenRecorder {
                     new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black", FrameRateKey, Rational.valueOf(30)), null, file, methodName);
             screenRecorder.start();
         } catch (IOException e) {
+            LogUtils.error(e.getMessage());
             throw new RuntimeException(e);
         } catch (AWTException e) {
+            LogUtils.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -95,8 +98,9 @@ public class CaptureHelper extends ScreenRecorder {
         try {
             FileHandler.copy(source, new File(DataConfig.SCREENSHOT_PATH + imageName + "-" + dateFormat.format(new Date()) + ".png"));
         } catch (IOException e) {
+            LogUtils.error(e.getMessage());
             throw new RuntimeException(e);
         }
-        System.out.println("✅ Screenshot success !!");
+        LogUtils.info("✅ Screenshot success !!");
     }
 }

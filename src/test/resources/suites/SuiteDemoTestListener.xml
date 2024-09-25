@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Suite Parallel Testing " verbose="1" >
+
+    <test name="Parallel Testing in POM with chrome" >
+        <parameter name="browser" value="chrome"></parameter>
+        <classes>
+            <class name="com.thaonth.Bai31_TestListener.testcases.LoginTest">
+                <methods>
+                    <include name="testLoginSuccess"/>
+                </methods>
+            </class>
+            <class name="com.thaonth.Bai31_TestListener.testcases.DashboardTest">
+                <methods>
+                    <include name="testCheckSectionQuickStatisticsDisplayed"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

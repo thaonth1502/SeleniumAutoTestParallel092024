@@ -1,10 +1,10 @@
 package com.thaonth.helpers;
 
+import com.thaonth.utils.LogUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,6 +30,7 @@ public class ExcelHelper {
             File f = new File(ExcelPath);
 
             if (!f.exists()) {
+                LogUtils.error("❌ File doesn't exist.");
                 throw new Exception("❌ File doesn't exist.");
             }
 
@@ -38,6 +39,7 @@ public class ExcelHelper {
             sh = wb.getSheet(SheetName);
 
             if (sh == null) {
+                LogUtils.error("❌ Sheet name doesn't exist.");
                 throw new Exception("❌ Sheet name doesn't exist.");
             }
 
@@ -49,7 +51,7 @@ public class ExcelHelper {
             });
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LogUtils.error(e.getMessage());
         }
     }
     public String getCellData(int columnIndex, int rowIndex) {
@@ -76,6 +78,7 @@ public class ExcelHelper {
             }
             return CellData;
         } catch (Exception e) {
+            LogUtils.error(e.getMessage());
             return "";
         }
     }
@@ -111,7 +114,7 @@ public class ExcelHelper {
             fileOut.flush();
             fileOut.close();
         } catch (Exception e) {
-            e.getMessage();
+           LogUtils.error(e.getMessage());
         }
     }
 
@@ -140,9 +143,9 @@ public class ExcelHelper {
             wb.write(fileOut);
             fileOut.flush();
             fileOut.close();
-            System.out.println("☑\uFE0F Set data completed");
+            LogUtils.info("☑\uFE0F Set data completed");
         } catch (Exception e) {
-            e.getMessage();
+           LogUtils.error(e.getMessage());
         }
     }
 
@@ -166,7 +169,7 @@ public class ExcelHelper {
             int noOfRows = sh.getPhysicalNumberOfRows();
             int noOfCols = row.getLastCellNum();
 
-            System.out.println(noOfRows + " - " + noOfCols);
+            LogUtils.info(noOfRows + " - " + noOfCols);
 
             Cell cell;
             data = new Object[noOfRows - 1][noOfCols];
@@ -194,8 +197,7 @@ public class ExcelHelper {
                 }
             }
         } catch (Exception e) {
-            System.out.println("The exception is:" + e.getMessage());
-            throw new RuntimeException(e);
+            LogUtils.error(e.getMessage());
         }
         return data;
     }
@@ -206,7 +208,7 @@ public class ExcelHelper {
             row = sh.getRow(0);
             return row.getLastCellNum();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LogUtils.error(e.getMessage());
             throw (e);
         }
     }
@@ -222,17 +224,17 @@ public class ExcelHelper {
     }
 
     public Object[][] getDataHashTable(String excelPath, String sheetName, int startRow, int endRow) {
-        System.out.println("Excel Path: " + excelPath);
+        LogUtils.info("Excel Path: " + excelPath);
         Object[][] data = null;
 
         try {
             File f = new File(excelPath);
             if (!f.exists()) {
                 try {
-                    System.out.println("File Excel path not found.");
+                    LogUtils.info("File Excel path not found.");
                     throw new IOException("File Excel path not found.");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LogUtils.error(e.getMessage());
                 }
             }
 
@@ -245,8 +247,8 @@ public class ExcelHelper {
             int rows = getLastRowNum();
             int columns = getColumns();
 
-            System.out.println("Row: " + rows + " - Column: " + columns);
-            System.out.println("StartRow: " + startRow + " - EndRow: " + endRow);
+            LogUtils.info("Row: " + rows + " - Column: " + columns);
+            LogUtils.info("StartRow: " + startRow + " - EndRow: " + endRow);
 
             data = new Object[(endRow - startRow) + 1][1];
             Hashtable<String, String> table = null;
@@ -259,7 +261,7 @@ public class ExcelHelper {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+           LogUtils.error(e.getMessage());
         }
 
         return data;

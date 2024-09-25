@@ -2,6 +2,7 @@ package com.thaonth.dataproviders;
 
 import com.thaonth.helpers.ExcelHelper;
 import com.thaonth.helpers.SystemHelper;
+import com.thaonth.utils.LogUtils;
 import org.testng.annotations.DataProvider;
 
 public class DataProviderFactory {
@@ -35,7 +36,7 @@ public class DataProviderFactory {
     public Object[][] dataProviderLoginFromExcel() {
         ExcelHelper excelHelper = new ExcelHelper();
         Object[][] data = excelHelper.getExcelData(SystemHelper.getCurrentDir() + "src/test/resources/dataTest/ExcelData.xlsx", "Login");
-        System.out.println("Login Data from Excel: " + data);
+        LogUtils.info("Login Data from Excel: " + data);
         return data;
     }
 
@@ -43,7 +44,7 @@ public class DataProviderFactory {
     public Object[][] dataProviderLoginFromExcelHashtable() {
         ExcelHelper excelHelper = new ExcelHelper();
         Object[][] data = excelHelper.getDataHashTable(SystemHelper.getCurrentDir() + "src/test/resources/dataTest/ExcelData.xlsx", "Login", 2, 4);
-        System.out.println("Login Data from Excel (Hashtable): " + data);
+        LogUtils.info("Login Data from Excel (Hashtable): " + data);
         return data;
     }
 
@@ -54,4 +55,5 @@ public class DataProviderFactory {
         System.out.println("Login Data from Excel (Hashtable) - Customer: " + data);
         return data;
     }
+
 }

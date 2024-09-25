@@ -40,8 +40,8 @@ public class CustomerPage extends CommonPage {
 
     //Create Group
     private By buttonCreateGroup = By.xpath("//div[@class='input-group-btn']");
-    private By inputNameGroup = By.xpath("//input[@id='name']");
-    private By errorMessage = By.xpath("//p[@id='name-error']");
+    private By inputNameGroup = By.xpath("//div[@id='customer_group_modal']//input[@id='name']");
+    private By errorMessage = By.xpath("//div[@id='customer_group_modal']//p[@id='name-error']");
     private By buttonSaveGroup = By.xpath("//div[@id='customer_group_modal']//button[normalize-space()='Save']");
 
 
@@ -56,7 +56,7 @@ public class CustomerPage extends CommonPage {
 
     public void createNewGroup(String groupName){
         clickElement(buttonCreateGroup);
-        DriverManager.getDriver().switchTo().activeElement();
+        sleep(2);
         setText(inputNameGroup, groupName);
         clickElement(buttonSaveGroup);
         sleep(2);
@@ -83,7 +83,7 @@ public class CustomerPage extends CommonPage {
         sleep(2);
 //        Assert.assertTrue(WebUI.getWebElement(alterMessage).isDisplayed(),"\uD83D\uDC1E FAIL!!! The alter Message not display.");
         Assert.assertTrue(isElementDisplayed(alterMessage), "\uD83D\uDC1E FAIL!!! The alter Message not display.");
-        assertEquals(getElementText(alterMessage).trim(), "Customer added successfully.", "FAIL!!! The content message not match.");
+        assertEquals(getElementText(alterMessage).trim(), "Customer added successfully.", "\uD83D\uDC1E FAIL!!! The content message not match.");
     }
 
     public void clickAddNewButton(){

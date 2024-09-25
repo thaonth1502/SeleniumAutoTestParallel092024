@@ -3,6 +3,7 @@ package com.thaonth.Bai31_TestListener.pages;
 import com.thaonth.contants.DataConfig;
 import com.thaonth.keywords.WebUI;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
 public class LoginPage extends CommonPage {
@@ -45,15 +46,15 @@ public class LoginPage extends CommonPage {
 
     public void verifyLoginSuccess(){
         WebUI.waitForPageLoaded();
-        softAssert.assertTrue(WebUI.checkElementExist(menuDashboard), "\uD83D\uDC1E FAIL!!! Can not redirect to Dashboard page.");
+        softAssert.assertTrue(WebUI.isElementDisplayed(menuDashboard), "\uD83D\uDC1E FAIL!!! Can not redirect to Dashboard page.");
         WebUI.assertEquals(WebUI.getCurrentURL(), "https://crm.anhtester.com/admin/", "\uD83D\uDC1E FAIL!!! Current page not match.");
         softAssert.assertAll();
     }
 
     public void verifyLoginFail(String messageExpected){
         WebUI.waitForPageLoaded();
-        softAssert.assertTrue(WebUI.checkElementExist(errorMessage), "\uD83D\uDC1E  FAIL!!! Error message not displayed.");
-        WebUI.assertEquals(WebUI.getElementText(errorMessage),messageExpected, "\uD83D\uDC1E FAIL!!! The content message not match.");
+        softAssert.assertTrue(WebUI.checkElementExist(errorMessage), "FAIL!!! Error message not displayed.");
+        WebUI.assertEquals(WebUI.getElementText(errorMessage),messageExpected, "FAIL!!! The content message not match.");
         softAssert.assertAll();
     }
 }

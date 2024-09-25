@@ -3,7 +3,10 @@ package com.thaonth.Bai31_TestListener.testcases;
 import com.thaonth.Bai31_TestListener.pages.DashboardPage;
 import com.thaonth.Bai31_TestListener.pages.LoginPage;
 import com.thaonth.common.BaseTest;
+import com.thaonth.listeners.TestListener;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
 
 public class DashboardTest extends BaseTest {
 
@@ -18,7 +21,7 @@ public class DashboardTest extends BaseTest {
            dashboardPage.checkTotalInvoicesAwaitingPayment("2 / 5");
            dashboardPage.checkTotalConvertedLeads("1 / 22");
            dashboardPage.checkTotalProjectsInProgress("0 / 6");
-           dashboardPage.checkTotalTasksNotFinished("7 / 8");
+           dashboardPage.checkTotalTasksNotFinished("8 / 9");
     }
 
     @Test
