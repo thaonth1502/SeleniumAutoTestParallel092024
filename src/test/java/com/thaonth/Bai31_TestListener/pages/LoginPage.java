@@ -53,8 +53,8 @@ public class LoginPage extends CommonPage {
 
     public void verifyLoginFail(String messageExpected){
         WebUI.waitForPageLoaded();
-        softAssert.assertTrue(WebUI.checkElementExist(errorMessage), "FAIL!!! Error message not displayed.");
+
+        Assert.assertTrue(WebUI.checkElementExist(errorMessage), "FAIL!!! Error message not displayed.");
         WebUI.assertEquals(WebUI.getElementText(errorMessage),messageExpected, "FAIL!!! The content message not match.");
-        softAssert.assertAll();
     }
 }

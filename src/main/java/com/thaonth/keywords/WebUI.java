@@ -6,8 +6,10 @@ import com.thaonth.drivers.DriverManager;
 import com.thaonth.helpers.CaptureHelper;
 import com.thaonth.helpers.PropertiesHelper;
 import com.thaonth.helpers.SystemHelper;
+import com.thaonth.reports.AllureManager;
 import com.thaonth.reports.ExtentTestManager;
 import com.thaonth.utils.LogUtils;
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -21,7 +23,10 @@ import java.time.Duration;
 import java.util.List;
 
 public class WebUI {
-    
+
+    private static int EXPLICIT_WAIT_TIMEOUT = DataConfig.EXPLICIT_WAIT_TIMEOUT;
+    private static double STEP_TIME = DataConfig.STEP_TIME;
+    private static int PAGE_LOAD_TIMEOUT = DataConfig.PAGE_LOAD_TIMEOUT;
 
     //Assert and Verify
     public static boolean verifyEquals(Object actual, Object expected) {
@@ -58,13 +63,12 @@ public class WebUI {
 
     //Wait for Element
 
-
     public static void waitForElementVisible(By by) {
         try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT), Duration.ofMillis(500));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         } catch (Throwable error) {
-            LogUtils.info("Timeout waiting for the element Visible. " + by.toString());
+            LogUtils.error("Timeout waiting for the element Visible. " + by.toString());
             Assert.fail("Timeout waiting for the element Visible. " + by.toString());
         }
     }
@@ -74,7 +78,7 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         } catch (Throwable error) {
-            LogUtils.info("Timeout waiting for the element Visible. " + by.toString());
+            LogUtils.error("Timeout waiting for the element Visible. " + by.toString());
             Assert.fail("Timeout waiting for the element Visible. " + by.toString());
         }
     }
@@ -84,7 +88,7 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT), Duration.ofMillis(500));
             wait.until(ExpectedConditions.presenceOfElementLocated(by));
         } catch (Throwable error) {
-            LogUtils.info("Element not exist. " + by.toString());
+            LogUtils.error("Element not exist. " + by.toString());
             Assert.fail("Element not exist. " + by.toString());
         }
     }
@@ -94,30 +98,57 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.presenceOfElementLocated(by));
         } catch (Throwable error) {
-            LogUtils.info("Element not exist. " + by.toString());
+            LogUtils.error("Element not exist. " + by.toString());
             Assert.fail("Element not exist. " + by.toString());
         }
     }
 
-    public static void waitForElementClickable(By by) {
-            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT), Duration.ofMillis(500));
+    public static void waitForElementToBeClickable(By by) {
+        try {
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT));
             wait.until(ExpectedConditions.elementToBeClickable(getWebElement(by)));
+        } catch (Throwable error){
+            LogUtils.error("Timeout waiting for the element ready to click. " + by.toString());
+            Assert.fail("Timeout waiting for the element ready to click. " + by.toString());
+        }
     }
 
-    public static void waitForElementClickable(By by, int timeOut) {
+    public static void waitForElementToBeClickable(By by, int timeOut) {
+        try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
             wait.until(ExpectedConditions.elementToBeClickable(getWebElement(by)));
+        } catch (Throwable error){
+            LogUtils.error("Timeout waiting for the element ready to click. " + by.toString());
+            Assert.fail("Timeout waiting for the element ready to click. " + by.toString());
+        }
     }
 
-    public static void waitForElementSelected(By by) {
-            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT), Duration.ofMillis(500));
+    public static void waitForElementToBeSelected(By by) {
+        try {
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(DataConfig.EXPLICIT_WAIT_TIMEOUT));
             wait.until(ExpectedConditions.elementToBeSelected(getWebElement(by)));
+        } catch (Throwable error){
+            LogUtils.error("Timeout waiting for the element ready to click. " + by.toString());
+            Assert.fail("Timeout waiting for the element ready to click. " + by.toString());
+        }
     }
 
     public static void waitForElementSelected(By by, int timeOut) {
-            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(500));
+        try {
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeOut));
             wait.until(ExpectedConditions.elementToBeSelected(getWebElement(by)));
+        } catch (Throwable error){
+            LogUtils.error("Timeout waiting for the element ready to selected. " + by.toString());
+            Assert.fail("Timeout waiting for the element ready to selected. " + by.toString());
+        }
     }
+
+    public static void waitForAlertIsPresent() {
+        WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.alertIsPresent());
+    }
+
+
 
     //Các hàm xử lý cơ bản
     public static void sleep(double second) {
@@ -133,11 +164,9 @@ public class WebUI {
     }
 
     public static WebElement getWebElement(By by) {
-        waitForElementPresent(by);
         return DriverManager.getDriver().findElement(by);
     }
     public static List<WebElement> getListWebElement(By by){
-        waitForElementPresent(by);
         return DriverManager.getDriver().findElements(by);
     }
 
@@ -155,87 +184,119 @@ public class WebUI {
         }
     }
 
+    @Step(" Open URL \"{0}\"")
     public static void openURL(String url) {
         DriverManager.getDriver().get(url);
         sleep(DataConfig.STEP_TIME);
-        LogUtils.info("Open: " + url);
+        LogUtils.info("Open URL: " + url);
         ExtentTestManager.logMessage(Status.PASS, "Open: " + url);
         if (PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
             CaptureHelper.screenshot(SystemHelper.makeSlug("openURL_" + url));
+            ExtentTestManager.addScreenshot(SystemHelper.makeSlug("openURL_" + url));
+            AllureManager.saveScreenshotPNG();
+
         }
     }
 
+    @Step("Click element \"{0}\"")
     public static void clickElement(By by) {
-        waitForElementClickable(by);
-        DriverManager.getDriver().findElement(by).click();
+        waitForElementToBeClickable(by);
+        sleep(DataConfig.STEP_TIME);
+        getWebElement(by).click();
         LogUtils.info("Click element: " + by);
         ExtentTestManager.logMessage(Status.PASS, "Click element: " + by);
         if(PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
-            CaptureHelper.screenshot(SystemHelper.makeSlug("clickElement"+by.toString()));
+            CaptureHelper.screenshot(SystemHelper.makeSlug("clickElement_" + by.toString()));
+            ExtentTestManager.addScreenshot(SystemHelper.makeSlug("clickElement_" + by.toString()));
+            AllureManager.saveScreenshotPNG();
         }
     }
 
     public static boolean isSelectedElement(By by){
-        waitForElementSelected(by);
-        return DriverManager.getDriver().findElement(by).isSelected();
+        waitForElementToBeSelected(by);
+        return getWebElement(by).isSelected();
     }
 
+    @Step("Set text \"{1}\" on element \"{0}\"")
     public static void setText(By by, String value) {
+        waitForElementPresent(by);
+        sleep(DataConfig.STEP_TIME);
         getWebElement(by).sendKeys(value);
         LogUtils.info("Set text: " + value + " on element " + by);
         ExtentTestManager.logMessage(Status.PASS, "Set text: " + value + " on element " + by);
         if(PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
-            CaptureHelper.screenshot(SystemHelper.makeSlug("setText"+by.toString()));
+            CaptureHelper.screenshot(SystemHelper.makeSlug("setText_" + by.toString()));
+            ExtentTestManager.addScreenshot(SystemHelper.makeSlug("setText_" + by.toString()));
+            AllureManager.saveScreenshotPNG();
         }
     }
 
+    @Step("Set key \"{1}\" on element \"{0}\"")
     public static void setKeys(By by, Keys key){
         getWebElement(by).sendKeys(key);
         LogUtils.info("Set Keys: " + key + " on element " + by);
         ExtentTestManager.logMessage(Status.PASS, "Set Keys: " + key + " on element " + by);
 
         if(PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
-            CaptureHelper.screenshot(SystemHelper.makeSlug("setText"+by.toString()));
+            CaptureHelper.screenshot(SystemHelper.makeSlug("setText_" + by.toString()));
+            ExtentTestManager.addScreenshot(SystemHelper.makeSlug("setKeys_" + by.toString()));
+            AllureManager.saveScreenshotPNG();
         }
     }
 
+    @Step("Set text \"{1}\" and key \"{2}\" on element \"{0}\"")
     public static void setTextAndKey(By by, String value, Keys key) {
+        waitForPageLoaded();
         getWebElement(by).sendKeys(value, key);
         LogUtils.info("Set text: " + value + " Set Keys: " + key + " on element " + by);
         ExtentTestManager.logMessage(Status.PASS, "Set text: " + value + " Set Keys: " + key + " on element " + by);
 
         if(PropertiesHelper.getValue("SCREENSHOT_STEP_ALL").equals("true")){
-            CaptureHelper.screenshot(SystemHelper.makeSlug("setText"+by.toString()));
+            CaptureHelper.screenshot(SystemHelper.makeSlug("setTextAndKey_" + by.toString()));
+            ExtentTestManager.addScreenshot(SystemHelper.makeSlug("setTextAndKey_" + by.toString()));
+            AllureManager.saveScreenshotPNG();
         }
     }
 
     public static void clearElementText(By by){
-        waitForElementVisible(by);
-        DriverManager.getDriver().findElement(by).clear();
+        waitForPageLoaded();
+        getWebElement(by).clear();
         LogUtils.info("Clear text on element " + by);
     }
 
+    @Step("Get text of element \"{0}\"")
     public static String getElementText(By by) {
         waitForElementVisible(by);
-        String text = DriverManager.getDriver().findElement(by).getText();
+        sleep(DataConfig.STEP_TIME);
+        String text = getWebElement(by).getText();
         LogUtils.info("Get text: " + text);
         ExtentTestManager.logMessage(Status.PASS, "Get text: " + text);
+        AllureManager.saveTextLog("Get text: " + text);
+        AllureManager.saveScreenshotPNG();
         return text; //Trả về một giá trị kiểu String
     }
 
+    @Step("Get Attribute value of element \"{0}\"")
     public static String getElementAttribute(By by, String attributeName){
         waitForElementVisible(by);
-        String text = DriverManager.getDriver().findElement(by).getAttribute(attributeName);
+        sleep(DataConfig.STEP_TIME);
+        String text = getWebElement(by).getAttribute(attributeName);
         LogUtils.info("Attribute value: " + text);
         ExtentTestManager.logMessage(Status.PASS, "Attribute value: " + text);
+        AllureManager.saveTextLog("Attribute value: " + text);
+        AllureManager.saveScreenshotPNG();
         return text;
     }
 
     public static boolean isElementDisplayed(By by){
-        return DriverManager.getDriver().findElement(by).isDisplayed();
+        waitForPageLoaded();
+        sleep(DataConfig.STEP_TIME);
+        return getWebElement(by).isDisplayed();
     }
 
     public static String getCurrentURL(){
+        waitForPageLoaded();
+        sleep(DataConfig.STEP_TIME);
         return DriverManager.getDriver().getCurrentUrl();
     }
 

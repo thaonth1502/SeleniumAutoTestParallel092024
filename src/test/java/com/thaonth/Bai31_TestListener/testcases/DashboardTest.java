@@ -13,7 +13,7 @@ public class DashboardTest extends BaseTest {
    private LoginPage loginPage;
    private DashboardPage dashboardPage;
 
-    @Test
+    @Test (description = "Check Quick Statistics Section" )
     public void testCheckQuickStatisticsSection(){
            loginPage = new LoginPage();
            dashboardPage = loginPage.loginCRM("admin@example.com", "123456");
@@ -24,7 +24,7 @@ public class DashboardTest extends BaseTest {
            dashboardPage.checkTotalTasksNotFinished("8 / 9");
     }
 
-    @Test
+    @Test (description = "Check Section Quick Statistics Displayed")
     public void testCheckSectionQuickStatisticsDisplayed(){
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM("admin@example.com", "123456");

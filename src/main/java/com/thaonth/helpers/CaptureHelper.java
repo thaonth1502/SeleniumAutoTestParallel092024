@@ -101,6 +101,6 @@ public class CaptureHelper extends ScreenRecorder {
             LogUtils.error(e.getMessage());
             throw new RuntimeException(e);
         }
-        LogUtils.info("✅ Screenshot success !!");
+        LogUtils.info("Screenshot success !!");
     }
 }

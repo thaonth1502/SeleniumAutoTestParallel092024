@@ -32,30 +32,31 @@ public class LoginTest extends BaseTest {
         loginPage.verifyLoginSuccess();
     }
 
-    @Test (description = "Login Fail - Email Invalid")
+    @Test (description = "Login Fail - Email Invalid", testName = "Login Fail - Email Invalid")
     public void testLoginFailWithEmailInvalid(){
         loginPage = new LoginPage();
-        loginPage.loginCRM("admin1@example.com", "123456");
+
+        loginPage.loginCRM("admin@example.com", "123456");
         loginPage.verifyLoginFail("Invalid email or password");
     }
 
-    @Test
+    @Test (description = "Login Fail - Password Invalid")
     public void testLoginFailWithPasswordInvalid(){
         loginPage = new LoginPage();
 
-        loginPage.loginCRM("admin@example.com", "1234567");
+        loginPage.loginCRM("", "1234567");
         loginPage.verifyLoginFail("Invalid email or password");
     }
 
-    @Test
+    @Test (description = "Login Fail - Password Blank")
     public void testLoginFailWithPasswordBlank(){
         loginPage = new LoginPage();
 
-        loginPage.loginCRM("admin@example.com", "");
+        loginPage.loginCRM("admin@example.com", "111");
         loginPage.verifyLoginFail("The Password field is required.");
     }
 
-    @Test
+    @Test (description = "Login Fail - Email Blank")
     public void testLoginFailWithEmailBlank(){
         loginPage = new LoginPage();
 

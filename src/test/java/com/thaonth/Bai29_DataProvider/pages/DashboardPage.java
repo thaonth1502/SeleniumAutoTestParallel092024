@@ -41,7 +41,7 @@ public class DashboardPage extends CommonPage {
     }
 
     public void clickDashboardOptionButton(){
-        WebUI.waitForElementClickable(buttonDashboardOptions);
+        WebUI.waitForElementToBeClickable(buttonDashboardOptions);
         WebUI.clickElement(buttonDashboardOptions);
 
     }

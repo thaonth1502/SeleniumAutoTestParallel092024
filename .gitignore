@@ -14,6 +14,7 @@ target/
 /.idea
 /target
 /exports
+/logs
 
 ### Eclipse ###
 .apt_generated

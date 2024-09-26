@@ -6,16 +6,7 @@
     <test name="Parallel Testing in POM with chrome" >
         <parameter name="browser" value="chrome"></parameter>
         <classes>
-            <class name="com.thaonth.Bai31_TestListener.testcases.LoginTest">
-                <methods>
-                    <include name="testLoginSuccess"/>
-                </methods>
-            </class>
-            <class name="com.thaonth.Bai31_TestListener.testcases.DashboardTest">
-                <methods>
-                    <include name="testCheckSectionQuickStatisticsDisplayed"/>
-                </methods>
-            </class>
+            <class name="com.thaonth.Bai31_TestListener.testcases.LoginTest"/>
         </classes>
     </test>
 </suite>

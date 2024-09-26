@@ -3,6 +3,7 @@ package com.thaonth.listeners;
 import com.aventstack.extentreports.Status;
 import com.thaonth.helpers.CaptureHelper;
 import com.thaonth.helpers.PropertiesHelper;
+import com.thaonth.reports.AllureManager;
 import com.thaonth.reports.ExtentReportManager;
 import com.thaonth.reports.ExtentTestManager;
 import com.thaonth.utils.LogUtils;
@@ -22,13 +23,13 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext iTestContext) {
-        LogUtils.info("⭐\uFE0F ********** START TESTING **********");
+        LogUtils.info("********** START TESTING **********");
         PropertiesHelper.loadAllFiles();
     }
 
     @Override
     public void onFinish(ITestContext iTestContext) {
-        LogUtils.info("⭐\uFE0F ********** END TESTING **********");
+        LogUtils.info("********** END TESTING **********");
         //Kết thúc và thực thi Extents Report
         ExtentReportManager.getExtentReports().flush();
 
@@ -36,7 +37,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult iTestResult) {
-        LogUtils.info("▶\uFE0F Starting test case " + iTestResult.getName());
+        LogUtils.info("Starting test case " + iTestResult.getName());
         //Bắt đầu ghi 1 TCs mới vào Extent Report
         ExtentTestManager.saveToReport(getTestName(iTestResult), getTestDescription(iTestResult));
         if (PropertiesHelper.getValue("RECORD_VIDEO").equals("true")){
@@ -47,7 +48,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
-        LogUtils.info("☑\uFE0F Test case " + iTestResult.getName() + "is passed");
+        LogUtils.info("Test case " + iTestResult.getName() + " is passed");
         //Extent Report
         ExtentTestManager.logMessage(Status.PASS, iTestResult.getName() + " is passed.");
 
@@ -66,26 +67,29 @@ public class TestListener implements ITestListener {
         LogUtils.error(iTestResult.getThrowable());
 
         //Extent Report
-        ExtentTestManager.addScreenshot(getTestName(iTestResult));
-        ExtentTestManager.logMessage(Status.FAIL, iTestResult.getThrowable().getMessage());
         ExtentTestManager.logMessage(Status.FAIL, iTestResult.getThrowable().toString());
         ExtentTestManager.logMessage(Status.FAIL, iTestResult.getName() + " is failed.");
 
+        //Allure Report
+        AllureManager.saveTextLog(iTestResult.getThrowable().toString());
+        AllureManager.saveTextLog(iTestResult.getName() + " is failed.");
+
+
         if (PropertiesHelper.getValue("SCREENSHOT_STEP_FAIL").equals("true")){
             CaptureHelper.screenshot(iTestResult.getName());
+            ExtentTestManager.addScreenshot(getTestName(iTestResult));
+            AllureManager.saveScreenshotPNG();
         }
 
         if (PropertiesHelper.getValue("RECORD_VIDEO").equals("true")){
             CaptureHelper.stopRecord();
         }
 
-
-
     }
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
-        LogUtils.warn("⏭\uFE0F Skip test case " + iTestResult.getName());
+        LogUtils.warn("Skip test case " + iTestResult.getName());
 
         //Extent Report
         ExtentTestManager.logMessage(Status.SKIP, iTestResult.getThrowable().toString());
