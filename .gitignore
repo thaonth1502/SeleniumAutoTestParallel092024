@@ -15,6 +15,10 @@ target/
 /target
 /exports
 /logs
+/allure-report
+logs/
+allure-report*/
+out/
 
 ### Eclipse ###
 .apt_generated
