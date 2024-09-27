@@ -462,8 +462,6 @@ public class WebUI {
         return getWebElement(by);
     }
 
-
-
     //Chờ đợi trang load xong mới thao tác
     //Waiting page load finish then take action
     public static void waitForPageLoaded() {
