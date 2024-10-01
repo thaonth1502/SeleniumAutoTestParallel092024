@@ -10,6 +10,18 @@ public class SystemHelper {
     private static final Pattern NONLATIN = Pattern.compile("^\\w-");
     private static final Pattern WHITESPACE = Pattern.compile("\\s");
 
+    public static String removeSpecialCharacter(String str){
+        // Normalize the string to decompose diacritical marks
+        String normalized = Normalizer.normalize(str, Normalizer.Form.NFD);
+
+        //Remove diacritical marks by replacing non_ASCII characters
+        String result = normalized.replaceAll("\\p{M}", "");
+
+        System.out.println("Result: " + result);
+
+        return result;
+    }
+
     public static String makeSlug(String input){
         if (input == null)
             throw new IllegalArgumentException();

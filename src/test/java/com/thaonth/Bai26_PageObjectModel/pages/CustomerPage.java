@@ -1,9 +1,15 @@
 package com.thaonth.Bai26_PageObjectModel.pages;
 
 import com.thaonth.drivers.DriverManager;
+import com.thaonth.keywords.WebUI;
+import com.thaonth.utils.LogUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+
+import java.util.List;
 
 import static com.thaonth.keywords.WebUI.*;
 
@@ -130,6 +136,21 @@ public class CustomerPage extends CommonPage {
         clickElement(dropdownCountry);
         setTextAndKey(searchCountry,countryName,Keys.ENTER);
     }
+
+    public void searchDataCustomer(String customerName){
+        waitForPageLoaded();
+        setText(inputSearchBox,customerName);
+    }
+
+    public void searchAndCheckDataInTable(int column, String data, String columnName){
+        waitForPageLoaded();
+        setText(inputSearchBox,data);
+        WebUI.sleep(1);
+        waitForPageLoaded();
+        WebUI.checkDataInTableByColumn_Contains(column, data, columnName);
+    }
+
+
     public void checkCustomerInTableList(String customerName){
         clickElement(menuCustomers);
         setText(inputSearchBox, customerName);

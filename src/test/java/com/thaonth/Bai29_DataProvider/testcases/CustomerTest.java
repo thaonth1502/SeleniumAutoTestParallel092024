@@ -32,13 +32,13 @@ public class CustomerTest extends BaseTest {
         );
         customerPage = dashboardPage.clickMenuCustomers();
         int beforeTotalCustomers = Integer.parseInt(customerPage.getTotalCustomers());
-        System.out.println("\uD83C\uDF40 Total Customer before: " + beforeTotalCustomers);
+        System.out.println("Total Customer before: " + beforeTotalCustomers);
         customerPage.clickAddNewButton();
         customerPage.inputDataInAddNewCustomerForm(data);
         customerPage.clickSaveButton();
         int afterTotalCustomers = Integer.parseInt(customerPage.getTotalCustomers());
-        System.out.println("\uD83C\uDF40  Total Customer after: " + afterTotalCustomers);
-        Assert.assertEquals(afterTotalCustomers, beforeTotalCustomers + 1, "\uD83D\uDC1E FAIL!!! Total Customer not match.");
+        System.out.println("Total Customer after: " + afterTotalCustomers);
+        Assert.assertEquals(afterTotalCustomers, beforeTotalCustomers + 1, "FAIL!!! Total Customer not match.");
         customerPage.checkCustomerInTableList(data);
         customerPage.checkCustomerDetail(data);
         projectPage = customerPage.clickMenuProjects();

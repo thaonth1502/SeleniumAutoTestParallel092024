@@ -51,7 +51,7 @@ public class DataProviderFactory {
     @DataProvider(name = "data_provider_customer_excel_hashtable")
     public Object[][] dataProviderCustomerFromExcelHashtable() {
         ExcelHelper excelHelper = new ExcelHelper();
-        Object[][] data = excelHelper.getDataHashTable(SystemHelper.getCurrentDir() + "src/test/resources/dataTest/ExcelData.xlsx", "Customer", 1, 2);
+        Object[][] data = excelHelper.getDataHashTable(SystemHelper.getCurrentDir() + "src/test/resources/dataTest/ExcelData.xlsx", "Customer", 3, 13);
         System.out.println("Login Data from Excel (Hashtable) - Customer: " + data);
         return data;
     }

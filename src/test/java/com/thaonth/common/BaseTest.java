@@ -1,5 +1,6 @@
 package com.thaonth.common;
 
+import com.thaonth.Bai26_PageObjectModel.pages.CommonPage;
 import com.thaonth.drivers.DriverManager;
 
 import com.thaonth.helpers.PropertiesHelper;
@@ -12,7 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.*;
 
 @Listeners({TestListener.class})
-public class BaseTest {
+public class BaseTest extends CommonPage {
 
     @BeforeMethod
     @Parameters({"browser"})

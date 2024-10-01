@@ -30,8 +30,8 @@ public class ExcelHelper {
             File f = new File(ExcelPath);
 
             if (!f.exists()) {
-                LogUtils.error("❌ File doesn't exist.");
-                throw new Exception("❌ File doesn't exist.");
+                LogUtils.error("File doesn't exist.");
+                throw new Exception("File doesn't exist.");
             }
 
             fis = new FileInputStream(ExcelPath);
@@ -39,8 +39,8 @@ public class ExcelHelper {
             sh = wb.getSheet(SheetName);
 
             if (sh == null) {
-                LogUtils.error("❌ Sheet name doesn't exist.");
-                throw new Exception("❌ Sheet name doesn't exist.");
+                LogUtils.error("Sheet name doesn't exist.");
+                throw new Exception("Sheet name doesn't exist.");
             }
 
             this.excelFilePath = ExcelPath;

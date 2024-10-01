@@ -29,8 +29,54 @@ public class WebUI {
     private static double STEP_TIME = DataConfig.STEP_TIME;
     private static int PAGE_LOAD_TIMEOUT = DataConfig.PAGE_LOAD_TIMEOUT;
 
-    //Upload file
 
+    @Step("Check Data \"{1}\" in table by Colum {2}")
+    public static void checkDataInTableByColumn_Contains (int column, String value, String columnName) {
+
+        LogUtils.info("Check data: " + value + " in table by column " + columnName);
+        ExtentTestManager.logMessage(Status.INFO,"Check data: " + value + " in table by column " + columnName);
+        //Xác định số dòng của table sau khi search
+        List<WebElement> row = WebUI.getListWebElement(By.xpath("//table//tbody/tr"));
+        int rowTotal = row.size(); //Lấy ra số dòng
+        LogUtils.info("Rows are found: " + rowTotal);
+
+        //Duyệt từng dòng
+        for (int i = 1; i <= rowTotal; i++) {
+            WebElement elementCheck = WebUI.getWebElement(By.xpath("//table//tbody/tr[" + i + "]/td[" + column + "]"));
+
+            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+            js.executeScript("arguments[0].scrollIntoView(true);", elementCheck);
+
+            LogUtils.info(value + " - ");
+            LogUtils.info(elementCheck.getText());
+            Assert.assertTrue(SystemHelper.removeSpecialCharacter(elementCheck.getText()).toUpperCase().contains(SystemHelper.removeSpecialCharacter(value).toUpperCase()), "Dòng số " + i + " không chứa giá trị tìm kiếm.");
+        }
+    }
+
+    @Step("Check Data \"{1}\" in table by Colum {2}")
+    public static void checkDataInTableByColumn_Equals (int column, String value, String columnName) {
+
+        LogUtils.info("Check data: " + value + " in table by column " + columnName);
+        ExtentTestManager.logMessage(Status.INFO,"Check data: " + value + " in table by column " + columnName);
+        //Xác định số dòng của table sau khi search
+        List<WebElement> row = WebUI.getListWebElement(By.xpath("//table//tbody/tr"));
+        int rowTotal = row.size(); //Lấy ra số dòng
+        System.out.println("Số dòng tìm thấy: " + rowTotal);
+
+        //Duyệt từng dòng
+        for (int i = 1; i <= rowTotal; i++) {
+            WebElement elementCheck = WebUI.getWebElement(By.xpath("//table//tbody/tr[" + i + "]/td[" + column + "]"));
+
+            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+            js.executeScript("arguments[0].scrollIntoView(true);", elementCheck);
+
+            LogUtils.info(value + " - ");
+            LogUtils.info (elementCheck.getText());
+            Assert.assertTrue(elementCheck.getText().toUpperCase().equals(value.toUpperCase()), "Dòng số " + i + " không chứa giá trị tìm kiếm.");
+        }
+    }
+
+    //Upload file
     public static void uploadFileWithRobotClass(By elementFileForm, String filePath ){
         WebUI.clickElement(elementFileForm);
         WebUI.sleep(2);

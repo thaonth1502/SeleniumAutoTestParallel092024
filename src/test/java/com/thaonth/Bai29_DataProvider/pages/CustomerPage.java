@@ -82,7 +82,7 @@ public class CustomerPage extends CommonPage {
         clickElement(buttonSaveCustomer);
         sleep(2);
 //        Assert.assertTrue(WebUI.getWebElement(alterMessage).isDisplayed(),"\uD83D\uDC1E FAIL!!! The alter Message not display.");
-        Assert.assertTrue(isElementDisplayed(alterMessage), "\uD83D\uDC1E FAIL!!! The alter Message not display.");
+        Assert.assertTrue(isElementDisplayed(alterMessage), "FAIL!!! The alter Message not display.");
         assertEquals(getElementText(alterMessage).trim(), "Customer added successfully.", "FAIL!!! The content message not match.");
     }
 
